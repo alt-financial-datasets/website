@@ -1,8 +1,8 @@
 /**
  * Evidence data for the weather commodity signals dataset.
- * All numbers sourced from validated Atlas hindcasts (OOS 2021+2022).
- * Model: NVIDIA Atlas (pre-trained 1979–2019); hindcast period 2021–2022.
- * Three-link transitive proof: ERA5→Price, Atlas→ERA5, Atlas→Price.
+ * All numbers sourced from validated AI model hindcasts (OOS 2021+2022).
+ * Model: AI weather model (pre-trained 1979–2019); hindcast period 2021–2022.
+ * Three-link transitive proof: ERA5→Price, Model→ERA5, Model→Price.
  * Provided for illustration — this is sample data, not the full dataset.
  */
 
@@ -14,7 +14,7 @@ export const threeLinkProof = [
   { commodity: 'Corn (CORN)',       link1: 0.459, link2: 0.894, link3: 0.486, permP: 0.002 },
 ]
 
-// OOS backtest results (2022, atlas-native z-score, lag-0)
+// OOS backtest results (2022, model-native z-score, lag-0)
 export const atlasBacktestResults = [
   { signal: 'Heating Oil / NE HDD',  sharpe: 4.42, ciLow: 1.16, ciHigh: 9.60,  hitRate: 83, trades: 18, oracleSharpe: 4.43 },
   { signal: 'RBOB Gasoline / NE HDD', sharpe: 5.22, ciLow: 3.17, ciHigh: 14.90, hitRate: 89, trades: 18, oracleSharpe: 4.59 },
@@ -22,9 +22,9 @@ export const atlasBacktestResults = [
   { signal: 'Corn / NE HDD',         sharpe: 5.11, ciLow: 3.33, ciHigh: 9.27,  hitRate: 78, trades: 18, oracleSharpe: 4.81 },
 ]
 
-// Atlas NE HDD z-score vs Heating Oil weekly return (OOS winter weeks, 2021+2022)
+// AI model NE HDD z-score vs Heating Oil weekly return (OOS winter weeks, 2021+2022)
 // 36 data points consistent with r=+0.533 (p<0.001, perm p=0.001)
-// Signal: Atlas 7-day HDD forecast anomaly (z-scored against Atlas 2021 distribution)
+// Signal: AI model 7-day HDD forecast anomaly (z-scored against model 2021 distribution)
 // Return: Heating Oil Mon open → next Mon open
 export const atlasHddVsHoReturn: { period: string; signal: number; price: number }[] = [
   // 2021 winter weeks (Nov 2021 – Mar 2022 OOS start)
