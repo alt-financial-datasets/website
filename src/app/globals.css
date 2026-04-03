@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #000000;
-  --surface: #111111;
-  --navy: #f0ede8;
-  --gold: #d4a017;
-  --gold-light: #e8c050;
-  --muted: #666666;
-  --border: #222222;
-  --white: #0a0a0a;
-  --positive: #4ade80;
-  --negative: #f87171;
+  --bg: #fafaf8;
+  --surface: #f0ede6;
+  --navy: #0f1d2e;
+  --gold: #9a7728;
+  --gold-light: #c4a84f;
+  --muted: #5c6b7a;
+  --border: #d4cbb8;
+  --white: #ffffff;
+  --positive: #166534;
+  --negative: #991b1b;
 }
 
 * {
@@ -68,11 +68,15 @@ h1, h2, h3, h4, .serif {
 }
 
 /* ─── Hover effects ─── */
-.breadcrumb-link {
-  transition: opacity 0.2s ease;
+.breadcrumb-segment {
+  display: inline-block;
+  background: transparent;
+  border-radius: 3px;
+  transition: background 0.15s ease;
+  text-decoration: none;
 }
-.breadcrumb-link:hover {
-  opacity: 0.6 !important;
+.breadcrumb-segment:hover {
+  background: #e8e8e8;
 }
 
 .social-icon:hover {
@@ -80,18 +84,35 @@ h1, h2, h3, h4, .serif {
 }
 
 .dataset-card {
-  box-shadow: 2px 2px 0 var(--gold);
+  box-shadow: 2px 2px 0 var(--navy);
   transition: box-shadow 0.15s ease;
 }
 
 .dataset-card:hover {
-  box-shadow: 4px 4px 0 var(--gold);
+  box-shadow: 4px 4px 0 var(--navy);
+}
+
+.card-plus {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 16px;
+  font-family: var(--font-mono);
+  color: var(--navy);
+  opacity: 0.4;
+  line-height: 1;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.dataset-card:hover .card-plus {
+  opacity: 0.85;
 }
 
 .download-btn:hover {
-  background: var(--gold) !important;
+  background: var(--navy) !important;
   color: var(--bg) !important;
-  border-color: var(--gold) !important;
+  border-color: var(--navy) !important;
 }
 
 /* ─── Mobile responsive ─── */
@@ -110,6 +131,6 @@ h1, h2, h3, h4, .serif {
 
 /* ─── Selection ─── */
 ::selection {
-  background-color: rgba(212, 160, 23, 0.25);
+  background-color: rgba(154, 119, 40, 0.2);
   color: var(--navy);
 }

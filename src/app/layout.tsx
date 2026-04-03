@@ -24,7 +24,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ribeon | Institutional Alternative Data",
+  title: "Ribeon | Alternative Data Provider",
   description:
     "Ribeon provides institutional-grade alternative datasets derived from US government records — federal procurement signals and weather commodity data for quantitative investors.",
   keywords: [
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     "hedge fund data",
   ],
   openGraph: {
-    title: "Ribeon | Institutional Alternative Data",
+    title: "Ribeon | Alternative Data Provider",
     description:
       "Institutional-grade alternative datasets derived from US government records.",
     type: "website",
@@ -55,8 +55,8 @@ export default function RootLayout({
       className={`${ebGaramond.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        {/* Thin gold accent line */}
-        <div style={{ background: "var(--gold)", height: "5px", width: "100%" }} />
+        {/* Thin navy accent line */}
+        <div style={{ background: "var(--navy)", height: "5px", width: "100%" }} />
 
         {/* Persistent breadcrumb — always in the same position */}
         <SiteBreadcrumb />

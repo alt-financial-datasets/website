@@ -1,16 +1,20 @@
 'use client'
 
+import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 const ROUTE_LABELS: Record<string, string> = {
   '/datasets/gov-spending': 'gov-spending',
   '/datasets/weather': 'weather',
+  '/datasets/gov-housing': 'gov-housing',
 }
 
 export function SiteBreadcrumb() {
   const pathname = usePathname()
-  const sub = ROUTE_LABELS[pathname]
+  const sub = ROUTE_LABELS[pathname.replace(/\/$/, '')]
+  const [ribeonHovered, setRibeonHovered] = useState(false)
+  const [subHovered, setSubHovered] = useState(false)
 
   return (
     <div
@@ -28,23 +32,35 @@ export function SiteBreadcrumb() {
           fontSize: '16px',
           color: 'var(--muted)',
           fontFamily: 'var(--font-mono)',
-          marginRight: '1px',
+          marginRight: '2px',
         }}
       >
         ~/
       </span>
 
-      {/* ribeon — always a link home */}
+      {/* ribeon — keeps serif bold font; thin underline when in a sub-page */}
       <Link
         href="/"
-        className="breadcrumb-link"
+        onClick={(e) => {
+          if (pathname === '/') {
+            e.preventDefault()
+            window.location.reload()
+          }
+        }}
+        onMouseEnter={() => setRibeonHovered(true)}
+        onMouseLeave={() => setRibeonHovered(false)}
         style={{
           fontSize: '24px',
           fontFamily: 'var(--font-serif)',
           fontWeight: 800,
           color: 'var(--navy)',
-          textDecoration: 'none',
+          textDecorationLine: sub ? 'underline' : 'none',
+          textDecorationThickness: '1px',
           lineHeight: 1,
+          padding: '2px 4px',
+          borderRadius: '3px',
+          background: ribeonHovered ? '#e8e8e8' : 'transparent',
+          transition: 'background 0.15s ease',
         }}
       >
         ribeon
@@ -57,18 +73,26 @@ export function SiteBreadcrumb() {
             style={{
               fontSize: '16px',
               color: 'var(--muted)',
-              margin: '0 6px',
+              margin: '0 5px',
               fontFamily: 'var(--font-mono)',
             }}
           >
             /
           </span>
           <span
+            onClick={() => window.location.reload()}
+            onMouseEnter={() => setSubHovered(true)}
+            onMouseLeave={() => setSubHovered(false)}
             style={{
               fontSize: '16px',
               color: 'var(--muted)',
               fontFamily: 'var(--font-mono)',
               letterSpacing: '0.3px',
+              cursor: 'pointer',
+              padding: '2px 4px',
+              borderRadius: '3px',
+              background: subHovered ? '#e8e8e8' : 'transparent',
+              transition: 'background 0.15s ease',
             }}
           >
             {sub}
