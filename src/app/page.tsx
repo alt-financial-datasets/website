@@ -45,21 +45,6 @@ export default function Home() {
           }}
         >
           {/* Card 1 */}
-          <Link href="/datasets/gov-spending" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div className="dataset-card" style={{ position: 'relative', background: 'var(--white)', border: '1px solid var(--navy)', width: '300px', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}>
-              <span className="card-plus">+</span>
-              <div style={{ padding: '20px 22px' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '10px', color: 'var(--navy)', fontFamily: 'var(--font-serif)', lineHeight: 1.3 }}>
-                  Federal Contracts
-                </h3>
-                <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.65 }}>
-                  Federal contract awards mapped to public company tickers, with quarterly signals that lead earnings by 30–60 days.
-                </p>
-              </div>
-            </div>
-          </Link>
-
-          {/* Card 2 */}
           <Link href="/datasets/weather" style={{ textDecoration: 'none', color: 'inherit' }}>
             <div className="dataset-card" style={{ position: 'relative', background: 'var(--white)', border: '1px solid var(--navy)', width: '300px', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}>
               <span className="card-plus">+</span>
@@ -69,6 +54,21 @@ export default function Home() {
                 </h3>
                 <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.65 }}>
                   Regional weather signals — temperature anomalies, drought, and heating demand — mapped to energy and agricultural futures.
+                </p>
+              </div>
+            </div>
+          </Link>
+
+          {/* Card 2 */}
+          <Link href="/datasets/gov-spending" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="dataset-card" style={{ position: 'relative', background: 'var(--white)', border: '1px solid var(--navy)', width: '300px', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}>
+              <span className="card-plus">+</span>
+              <div style={{ padding: '20px 22px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '10px', color: 'var(--navy)', fontFamily: 'var(--font-serif)', lineHeight: 1.3 }}>
+                  Federal Contracts
+                </h3>
+                <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.65 }}>
+                  Federal contract awards mapped to public company tickers, with quarterly signals that lead earnings by 30–60 days.
                 </p>
               </div>
             </div>

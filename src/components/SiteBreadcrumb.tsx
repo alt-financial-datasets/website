@@ -55,7 +55,6 @@ export function SiteBreadcrumb() {
           fontWeight: 800,
           color: 'var(--navy)',
           textDecorationLine: sub ? 'underline' : 'none',
-          textDecorationThickness: '1px',
           lineHeight: 1,
           padding: '2px 4px',
           borderRadius: '3px',

@@ -24,22 +24,21 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ribeon | Alternative Data Provider",
+  title: "Ribeon",
   description:
-    "Ribeon provides institutional-grade alternative datasets derived from US government records — federal procurement signals and weather commodity data for quantitative investors.",
+    "Ribeon builds actionable signals from primary sources and maps them to tradeable instruments for institutional investors and researchers.",
   keywords: [
     "alternative data",
     "institutional data",
-    "government spending",
-    "federal procurement",
-    "weather commodity signals",
     "quantitative finance",
     "hedge fund data",
+    "actionable signals",
+    "alpha generation",
   ],
   openGraph: {
-    title: "Ribeon | Alternative Data Provider",
+    title: "Ribeon",
     description:
-      "Institutional-grade alternative datasets derived from US government records.",
+      "Alternative data mapped to tradeable instruments for institutional investors.",
     type: "website",
   },
 };
