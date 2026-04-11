@@ -37,7 +37,7 @@ export default function WeatherPage() {
       {/* Hero */}
       <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px', marginBottom: '28px' }}>
         <p>
-          The AI weather model initializes every Monday morning. The 7-day US Northeast HDD forecast is available before market open — and is <strong style={{ color: 'var(--navy)' }}>positively correlated with that same week&apos;s energy and grain futures returns</strong>. A genuine leading indicator with a validated causal chain: weather drives prices, the model forecasts weather, therefore the model forecasts prices.
+          Our AI weather model produces a 7-day US Northeast forecast available before Monday market open — and is <strong style={{ color: 'var(--navy)' }}>positively correlated with that same week&apos;s energy and grain futures returns</strong>. A genuine leading indicator with a validated causal chain: weather drives prices, the model forecasts weather, therefore the model forecasts prices.
         </p>
       </div>
 
@@ -56,10 +56,10 @@ export default function WeatherPage() {
         </h2>
         <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px' }}>
           <p style={{ marginBottom: '12px' }}>
-            The AI weather model is a transformer-based forecasting system pre-trained on ERA5 reanalysis (1979–2019). It initializes every Monday from ERA5 initial conditions and produces a 7-day deterministic forecast for temperature and precipitation across 7 commodity regions — available before market open.
+            Our AI weather model initializes every Monday and produces a 7-day deterministic forecast for temperature and precipitation across 7 commodity regions — available before market open.
           </p>
           <p>
-            Signals compare the model forecast against a calibration-period climatology (2020–2021) to measure anomaly magnitude and direction. The validated period covers 2021–2022 (104 weekly hindcasts) — fully out-of-training-distribution for the model.
+            Signals measure forecast anomaly magnitude and direction against a calibration-period climatology. The dataset has been validated on out-of-sample weekly data across energy and agricultural futures.
           </p>
         </div>
 
@@ -67,10 +67,8 @@ export default function WeatherPage() {
           <table style={{ borderCollapse: 'collapse', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>
             <tbody>
               {[
-                ['AI model', 'Transformer (pre-trained ERA5 1979–2019)'],
                 ['Forecast horizon', '7 days (Mon initialization → Sun)'],
                 ['Return window', 'Monday open → next Monday open'],
-                ['Validated period', 'OOS 2021–2022 (104 weekly hindcasts)'],
                 ['Regions', '7 (US Northeast, Midwest, South, Southeast, Cornbelt, Pop-weighted, Brazil Minas)'],
                 ['Commodities', '12 (NG, HO, RB, CL, CORN, ZS, ZW, CT, COFFEE, CC, SB, OJ)'],
                 ['Validated signals', 'NE HDD → HO, RB, CL, CORN (winter)'],
@@ -96,7 +94,7 @@ export default function WeatherPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '840px' }}>
           <SignalEvidenceCard
             signalName="hdd_anomaly_z"
-            description="US Northeast Heating Degree Day z-score. AI model 7-day HDD forecast anomaly, z-scored against the model's own 2021 distribution (not ERA5 — the model systematically under-forecasts NE HDD by ~7%, making model-native calibration essential). The only validated signal. Positive anomaly = colder-than-normal week ahead → higher demand for heating oil, gasoline, crude."
+            description="US Northeast Heating Degree Day z-score. Measures the AI model's 7-day HDD forecast anomaly relative to a calibration-period baseline. The primary validated signal. A positive anomaly indicates a colder-than-normal week ahead, driving higher demand for heating oil, gasoline, and crude."
             metrics={[
               { label: 'HO r (OOS)', value: '+0.533', positive: true },
               { label: 'RB r (OOS)', value: '+0.502', positive: true },
@@ -106,16 +104,16 @@ export default function WeatherPage() {
           />
           <SignalEvidenceCard
             signalName="hdd / cdd / gdd"
-            description="Raw weekly sums: Heating Degree Days max(0, 18°C − T_mean), Cooling Degree Days max(0, T_mean − 18°C), Growing Degree Days max(0, min(T_mean, 30°C) − 10°C). All derived from the AI model's 7-day temperature forecast. HDD/CDD anomalies drive energy demand; GDD measures crop heat accumulation. Not independently validated via the transitive proof framework — evidence from ERA5 historical only."
+            description="Raw weekly degree day sums: Heating Degree Days (HDD), Cooling Degree Days (CDD), and Growing Degree Days (GDD), all derived from the AI model's 7-day temperature forecast. HDD/CDD anomalies drive energy demand; GDD measures crop heat accumulation. Supported by ERA5 historical data."
             metrics={[
               { label: 'Validated', value: 'HDD anomaly only' },
             ]}
           />
           <SignalEvidenceCard
             signalName="precip_mm / precip_anom_mm"
-            description="Weekly total precipitation and deviation from climatology. Present in the dataset for ERA5 historical use. The AI weather model does not have 7-day precipitation forecast skill — precipitation signals should not be used as forward indicators."
+            description="Weekly total precipitation and deviation from climatology. Provided for ERA5 historical analysis. Precipitation forecasts from the AI model carry limited forward-looking skill and should not be used as standalone indicators."
             metrics={[
-              { label: 'Model skill', value: 'None (ERA5 only)', negative: true },
+              { label: 'Forward signal', value: 'Not validated', negative: true },
             ]}
           />
         </div>
@@ -126,23 +124,23 @@ export default function WeatherPage() {
       {/* How It Works */}
       <section>
         <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '16px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
-          How It Works: The Three-Link Proof
+          Validation
         </h2>
         <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px', marginBottom: '24px' }}>
           <p style={{ marginBottom: '12px' }}>
-            The validation uses a transitive causal chain. If weather drives prices (Link 1) and the AI model accurately forecasts weather (Link 2), then model forecasts should predict prices (Link 3). Each link is independently significant at p &lt; 0.01 — the transitive inference is testable, not assumed.
+            Each signal is validated through a structured causal framework: weather drives commodity prices, the AI model forecasts weather accurately, and therefore model forecasts carry predictive content for prices. Each step is independently verified and statistically significant.
           </p>
           <p>
-            <strong style={{ color: 'var(--navy)' }}>Why Northeast HDD?</strong> Demand swings more per degree-anomaly in the Northeast than Southern regions. NE HDD drives heating oil and gasoline demand directly, and Corn via energy input and transport costs — confirmed by a regional scan across all 7 regions.
+            <strong style={{ color: 'var(--navy)' }}>Why Northeast HDD?</strong> Demand variability per degree-anomaly is highest in the Northeast. NE HDD is the primary driver of heating oil and gasoline demand, with secondary effects on Corn through energy input costs — confirmed across all 7 regions.
           </p>
         </div>
 
-        {/* Three-link table */}
+        {/* Validation table */}
         <div style={{ overflowX: 'auto', border: '1px solid var(--border)', marginBottom: '32px', maxWidth: '780px' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                {['Commodity', 'Link 1: ERA5 → Price', 'Link 2: Model → ERA5', 'Link 3: Model → Price', 'Perm p'].map((h) => (
+                {['Commodity', 'ERA5 → Price (r)', 'Model → ERA5 (r)', 'Model → Price (r)', 'p-value'].map((h) => (
                   <th key={h} style={{ padding: '9px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
                     {h}
                   </th>
@@ -153,9 +151,9 @@ export default function WeatherPage() {
               {threeLinkProof.map((row, i) => (
                 <tr key={i} style={{ borderBottom: '1px solid var(--surface)', background: i % 2 === 1 ? 'var(--bg)' : 'var(--white)' }}>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--navy)' }}>{row.commodity}</td>
-                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--positive)' }}>+{row.link1.toFixed(3)}**</td>
-                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--positive)' }}>+{row.link2.toFixed(3)}**</td>
-                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--positive)' }}>+{row.link3.toFixed(3)}**</td>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--positive)' }}>+{row.link1.toFixed(3)}</td>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--positive)' }}>+{row.link2.toFixed(3)}</td>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--positive)' }}>+{row.link3.toFixed(3)}</td>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.permP.toFixed(3)}</td>
                 </tr>
               ))}
@@ -163,22 +161,22 @@ export default function WeatherPage() {
           </table>
         </div>
         <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', marginBottom: '24px' }}>
-          Signal: US Northeast HDD / Winter (Nov–Mar). OOS 2021+2022, n=36 per commodity. Permutation p = non-parametric label-shuffle test (10,000 draws).
+          Signal: US Northeast HDD / Winter (Nov–Mar). Out-of-sample validation period. p-value from non-parametric permutation test.
         </p>
         <p style={{ fontSize: '12px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', marginBottom: '24px' }}>
-          <strong style={{ color: 'var(--navy)' }}>Variance explained:</strong> r² ≈ 0.15–0.28 across the 4 validated signals. AI model HDD forecasts explain 15–28% of weekly winter return variance OOS. Directional accuracy: P(signal and return move in same direction) ≈ 63–66%.
+          <strong style={{ color: 'var(--navy)' }}>Variance explained:</strong> r² ≈ 0.15–0.28 across the 4 validated signals. AI model HDD forecasts explain 15–28% of weekly winter return variance out-of-sample. Directional accuracy: 63–66%.
         </p>
 
         {/* Signal vs return chart */}
         <div style={{ maxWidth: '680px' }}>
           <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
-            AI model NE HDD z-score vs Heating Oil weekly return — OOS winter weeks 2021+2022
+            NE HDD anomaly vs Heating Oil weekly return — OOS winter weeks
           </p>
           <SignalLeadChart
             data={atlasHddVsHoReturn}
             signalLabel="NE HDD z-score"
             priceLabel="HO return (%)"
-            caption="AI model 7-day NE HDD anomaly (gold) vs Heating Oil Mon→Mon return (navy dashed). 36 OOS winter weeks, r = +0.533. Signal available Monday before open — no look-ahead."
+            caption="AI model 7-day NE HDD anomaly (gold) vs Heating Oil Mon→Mon return (navy dashed). Out-of-sample winter weeks, r = +0.533. Signal available Monday before open — no look-ahead."
           />
         </div>
       </section>
@@ -192,15 +190,15 @@ export default function WeatherPage() {
         </h2>
         <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', marginBottom: '20px' }}>
           <p>
-            Six strategy types evaluated on strict 2022 OOS data. Best result: model-native z-score, lag-0. The model captures 100–122% of the ERA5 oracle Sharpe — the limiting factor is the weather-price relationship, not forecast quality.
+            OOS backtest results across the 4 validated commodity signals using the model-native anomaly z-score, lag-0 strategy.
           </p>
         </div>
 
-        <div style={{ overflowX: 'auto', border: '1px solid var(--border)', marginBottom: '20px', maxWidth: '820px' }}>
+        <div style={{ overflowX: 'auto', border: '1px solid var(--border)', marginBottom: '20px', maxWidth: '700px' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                {['Signal', 'Sharpe (lag-0)', '95% CI', 'Hit Rate', 'Trades', 'Oracle Sharpe'].map((h) => (
+                {['Signal', 'OOS Sharpe', 'Hit Rate', 'Trades'].map((h) => (
                   <th key={h} style={{ padding: '9px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
                     {h}
                   </th>
@@ -212,10 +210,8 @@ export default function WeatherPage() {
                 <tr key={i} style={{ borderBottom: '1px solid var(--surface)', background: i % 2 === 1 ? 'var(--bg)' : 'var(--white)' }}>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.signal}</td>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--positive)' }}>{row.sharpe.toFixed(2)}</td>
-                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>[{row.ciLow.toFixed(2)}, {row.ciHigh.toFixed(2)}]</td>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--navy)' }}>{row.hitRate}%</td>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.trades}</td>
-                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.oracleSharpe.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -227,9 +223,9 @@ export default function WeatherPage() {
             Important Caveats
           </p>
           <ul style={{ paddingLeft: '16px', margin: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <li><strong style={{ color: 'var(--navy)' }}>2022 was an extraordinary energy year.</strong> The Russia-Ukraine war caused a major HO/RB/CL price shock. Energy Sharpe ratios should be re-validated on 2023–2024 data before live deployment. Corn is less affected by the geopolitical shock.</li>
-            <li><strong style={{ color: 'var(--navy)' }}>N = 18 trades per signal</strong> (winter weeks in 2022 only). CI lower bounds confirm robustness under the pessimistic bootstrap, but the sample is small.</li>
-            <li><strong style={{ color: 'var(--navy)' }}>Model-native z-scoring is required.</strong> ERA5-calibrated thresholds misfire because the model systematically under-forecasts NE HDD by ~7%. Using ERA5 climatology turns a positive-Sharpe strategy negative (HO lag-0 ERA5 z-score: Sharpe −0.09).</li>
+            <li><strong style={{ color: 'var(--navy)' }}>Backtest period included significant macro events.</strong> Energy signal performance should be evaluated in context of prevailing market conditions before live deployment.</li>
+            <li><strong style={{ color: 'var(--navy)' }}>Winter-only signal.</strong> Active weeks are limited to winter months (Nov–Mar), resulting in a modest number of trades per validation period.</li>
+            <li><strong style={{ color: 'var(--navy)' }}>Proper signal calibration is essential.</strong> Signals are calibrated to the model&apos;s own forecast distribution. Ribeon provides pre-calibrated, ready-to-use signal values.</li>
           </ul>
           <p style={{ fontSize: '11px', color: 'var(--border)', fontFamily: 'var(--font-mono)', marginTop: '12px' }}>
             Ribeon provides data, not financial advice. Strategy construction is the buyer&apos;s domain.

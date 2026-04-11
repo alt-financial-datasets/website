@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react'
 import { WeatherMap } from '@/components/WeatherMap'
 import { weatherSignalsSample } from '@/lib/data/weather-signals-sample'
-import { REGIONS } from '@/lib/data/regions'
 
 type SignalKey = 'composite_rank' | 'gdd_anomaly_pct' | 'precip_deficit_prob' | 'hdd_anomaly' | 'drought_probability' | 'frost_risk_prob'
 
@@ -60,18 +59,6 @@ const tdStyle: React.CSSProperties = {
   fontFamily: 'var(--font-mono)',
 }
 
-function rankStyle(v: number): React.CSSProperties {
-  if (v > 0.65) return { color: 'var(--positive)', fontWeight: 600 }
-  if (v < 0.35) return { color: 'var(--negative)' }
-  return { color: 'var(--muted)' }
-}
-
-function signalStyle(v: number): React.CSSProperties {
-  if (v > 0) return { color: 'var(--positive)' }
-  if (v < 0) return { color: 'var(--negative)' }
-  return { color: 'var(--muted)' }
-}
-
 export function WeatherDataPage() {
   const dates = useMemo(() => {
     const ds = Array.from(new Set(weatherSignalsSample.map((r) => r.date))).sort()
@@ -80,14 +67,6 @@ export function WeatherDataPage() {
 
   const [selectedSignal, setSelectedSignal] = useState<SignalKey>('composite_rank')
   const [selectedDate, setSelectedDate] = useState(dates[dates.length - 1] ?? '')
-
-  const tableRows = useMemo(() => {
-    const byRegion: Record<string, typeof weatherSignalsSample[0]> = {}
-    for (const row of weatherSignalsSample) {
-      if (row.date === selectedDate) byRegion[row.region] = row
-    }
-    return REGIONS.map((r) => ({ region: r, row: byRegion[r.id] }))
-  }, [selectedDate])
 
   return (
     <>
@@ -138,49 +117,6 @@ export function WeatherDataPage() {
             </span>
           ))}
         </div>
-      </section>
-
-      <div style={{ borderTop: '1px solid var(--border)', margin: '36px 0' }} />
-
-      {/* Signal Table */}
-      <section style={{ marginBottom: '0' }}>
-        <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '16px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
-          Signal Values — {selectedDate}
-        </h2>
-        <div style={{ overflowX: 'auto', border: '1px solid var(--border)' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                {['Region', 'Commodities', 'GDD Anom %', 'Precip Deficit', 'HDD Anom', 'Drought Prob', 'Frost Risk', 'Composite Rank'].map((h) => (
-                  <th key={h} style={thStyle}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {tableRows.map(({ region, row }, idx) => (
-                <tr key={region.id} style={{ borderBottom: '1px solid var(--surface)', background: idx % 2 === 1 ? 'var(--bg)' : 'var(--white)' }}>
-                  <td style={tdStyle}>{region.name}</td>
-                  <td style={{ ...tdStyle, color: 'var(--muted)' }}>{region.commodities.join(', ')}</td>
-                  {row ? (
-                    <>
-                      <td style={{ ...tdStyle, ...signalStyle(row.gdd_anomaly_pct) }}>{row.gdd_anomaly_pct > 0 ? '+' : ''}{row.gdd_anomaly_pct.toFixed(2)}</td>
-                      <td style={{ ...tdStyle, ...signalStyle(row.precip_deficit_prob) }}>{row.precip_deficit_prob.toFixed(2)}</td>
-                      <td style={{ ...tdStyle, ...signalStyle(row.hdd_anomaly) }}>{row.hdd_anomaly > 0 ? '+' : ''}{row.hdd_anomaly.toFixed(2)}</td>
-                      <td style={{ ...tdStyle, ...signalStyle(row.drought_probability) }}>{row.drought_probability.toFixed(2)}</td>
-                      <td style={{ ...tdStyle, ...signalStyle(row.frost_risk_prob) }}>{row.frost_risk_prob.toFixed(2)}</td>
-                      <td style={{ ...tdStyle, ...rankStyle(row.composite_rank) }}>{row.composite_rank.toFixed(2)}</td>
-                    </>
-                  ) : (
-                    <td colSpan={6} style={{ ...tdStyle, color: 'var(--border)' }}>— no sample data —</td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '8px', fontFamily: 'var(--font-mono)' }}>
-          Sample data for US Southern Plains only. Full dataset covers all 8 regions.
-        </p>
       </section>
 
       <div style={{ borderTop: '1px solid var(--border)', margin: '36px 0' }} />

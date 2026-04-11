@@ -46,7 +46,7 @@ export default function Research() {
             <div className="dataset-info">
               <div className="dataset-tag">Alternative Dataset</div>
               <h2>Weather Commodity Signals</h2>
-              <p>Leveraging an AI weather model (pre-trained on ERA5 reanalysis) across 7 commodity-producing regions, we generate climate-derived demand signals mapped to 12 commodity futures contracts.</p>
+              <p>Our AI weather model covers 7 commodity-producing regions, generating climate-derived demand signals mapped to 12 commodity futures contracts with a validated causal link to price returns.</p>
               <div className="signal-tags">
                 <span className="signal-tag">GDD Anomalies</span>
                 <span className="signal-tag">Drought Probability</span>

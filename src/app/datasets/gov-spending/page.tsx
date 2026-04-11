@@ -1,18 +1,14 @@
 import Link from 'next/link'
-import { GovSpendingExplorer } from '@/components/data/GovSpendingExplorer'
-import { SignalTimeSeriesChart } from '@/components/charts/SignalTimeSeriesChart'
 import { QuintileBarChart } from '@/components/charts/QuintileBarChart'
 import { ICTimeSeriesChart } from '@/components/charts/ICTimeSeriesChart'
 import { SignalLeadChart } from '@/components/charts/SignalLeadChart'
 import { StatBar } from '@/components/StatBar'
 import { SignalEvidenceCard } from '@/components/SignalEvidenceCard'
-import { govSpendingSample } from '@/lib/data/gov-spending-sample'
 import {
   govSpendingICSeries,
   govSpendingQuintileReturns,
   govSpendingSignalVsReturn,
 } from '@/lib/data/gov-spending-evidence'
-import type { GovSpendingRow } from '@/lib/types'
 
 const Divider = () => (
   <div style={{ borderTop: '1px solid var(--border)', margin: '36px 0' }} />
@@ -61,10 +57,10 @@ export default function GovSpendingPage() {
         </h2>
         <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px' }}>
           <p style={{ marginBottom: '12px' }}>
-            Every prime federal contract obligation from FY2007 through FY2025 — 27.8 million contract actions — resolved to its publicly traded counterpart. The entity resolution pipeline maps 2,388 SEC tickers through 1,761 temporal M&A entries, ensuring the right entity receives credit in every quarter (Raytheon maps to RTN before April 2020, RTX after).
+            Every prime federal contract obligation from FY2007 through FY2025, resolved to its publicly traded counterpart. Our entity resolution pipeline maps 2,388 SEC tickers across the full historical record, accounting for corporate actions, mergers, and ticker changes to ensure each award is attributed to the correct entity in each quarter.
           </p>
           <p>
-            Subaward depth adds $2.47T in downstream exposure across 1.17M FSRS records. Every observation is point-in-time compliant: no look-ahead, no survivorship bias. Non-PIT datasets overstate historical obligations by 12.3% on average.
+            Subaward data adds significant downstream exposure coverage. Every observation is point-in-time compliant — no look-ahead, no survivorship bias — making the dataset suitable for rigorous quantitative research and backtesting.
           </p>
         </div>
       </section>
@@ -126,14 +122,14 @@ export default function GovSpendingPage() {
         </h2>
         <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px', marginBottom: '24px' }}>
           <p>
-            FPDS contract actions post within 3 business days. For companies where government contracts represent 60–90% of revenue, UGR surprise in FPDS is a direct observable for the earnings print — weeks before the release. The chart below shows the <code style={{ fontSize: '12px', color: 'var(--gold)' }}>obligation_mcap_ratio</code> signal (gold) alongside subsequent quarter returns (navy dashed) for LMT.
+            Federal procurement data posts within days of contract execution — well ahead of quarterly earnings. For companies where government awards represent a significant share of revenue, this dataset provides a direct, observable leading indicator of the upcoming earnings print. The chart below illustrates the <code style={{ fontSize: '12px', color: 'var(--gold)' }}>obligation_mcap_ratio</code> signal (gold) alongside subsequent quarter returns (navy dashed).
           </p>
         </div>
         <SignalLeadChart
           data={govSpendingSignalVsReturn}
           signalLabel="Obligation/MCap rank"
           priceLabel="Next-quarter return"
-          caption="LMT obligation_mcap_ratio percentile rank vs. subsequent quarter total return, 2020–2024. Illustrative sample data."
+          caption="obligation_mcap_ratio percentile rank vs. subsequent quarter total return. Illustrative sample."
         />
       </section>
 
@@ -146,7 +142,7 @@ export default function GovSpendingPage() {
         </h2>
 
         <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.7, maxWidth: '680px', marginBottom: '28px' }}>
-          Spearman rank IC vs. one-quarter-forward total return, cross-sectionally across 2,237 tickers over 75–76 quarters. Prior-quarter-only winsorization — no look-ahead bias.
+          Spearman rank IC vs. one-quarter-forward total return, cross-sectionally across the covered universe over the full historical period. Point-in-time construction — no look-ahead bias.
         </div>
 
         {/* IC Summary table */}
@@ -211,25 +207,6 @@ export default function GovSpendingPage() {
             Ribeon provides data, not financial advice. Strategy construction, position sizing, and risk management are the buyer&apos;s domain.
           </p>
         </div>
-      </section>
-
-      <Divider />
-
-      {/* Interactive Demo */}
-      <section style={{ marginBottom: '0' }}>
-        <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '18px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
-          Sample Data
-        </h2>
-        <GovSpendingExplorer />
-      </section>
-
-      <Divider />
-
-      <section>
-        <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '18px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
-          Composite Rank Over Time
-        </h2>
-        <SignalTimeSeriesChart data={govSpendingSample as GovSpendingRow[]} />
       </section>
 
     </div>

@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { GovHousingExplorer } from '@/components/data/GovHousingExplorer'
 import { StatBar } from '@/components/StatBar'
 import { SignalEvidenceCard } from '@/components/SignalEvidenceCard'
 import { QuintileBarChart } from '@/components/charts/QuintileBarChart'
@@ -57,10 +56,10 @@ export default function GovHousingPage() {
         </h2>
         <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px' }}>
           <p style={{ marginBottom: '12px' }}>
-            Seven data sources fused into a single quarterly panel: USAspending.gov contracts (NAICS 236xxx new construction) and assistance (27 HUD/USDA programs including Section 8, CDBG, HOME, and USDA Rural Housing), SAM.gov forward procurement opportunities, Census BPS building permits, HUD LIHTC project allocations, Census CBSA metro crosswalk, and FEMA disaster declarations.
+            Seven authoritative data sources fused into a single quarterly panel: USAspending.gov contracts and assistance programs (HUD and USDA housing initiatives), SAM.gov forward procurement opportunities, Census building permit data, LIHTC project allocations, Census CBSA metro crosswalk, and FEMA disaster declarations.
           </p>
           <p>
-            CDBG-DR disaster grants surge 10–100× after major events, inflating spending metrics. 679 county-quarters are flagged and cleaned to trailing 4-quarter averages, ensuring signals reflect underlying housing market activity rather than disaster recovery.
+            Disaster-related grant activity is identified and adjusted to prevent event-driven distortions from inflating underlying housing metrics, ensuring signals reflect genuine market conditions rather than recovery spending.
           </p>
         </div>
       </section>
@@ -115,7 +114,7 @@ export default function GovHousingPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '840px' }}>
           <SignalEvidenceCard
             signalName="hb_contrarian_index"
-            description="Countercyclical homebuilder signal. Federal subsidy intensity reveals the absence of healthy private demand. Flipping the sign — low subsidy exposure — identifies builders positioned in the strongest private-demand markets (Sun Belt vs. distressed Northeast/DC markets). The only statistically significant OOS equity signal."
+            description="Countercyclical homebuilder signal. Federal subsidy intensity acts as a proxy for distressed market exposure — builders with low subsidy footprint are positioned in markets with the strongest organic private demand. The primary statistically significant OOS equity signal."
             metrics={[
               { label: 'OOS IC', value: '+0.130', positive: true },
               { label: 'OOS t-stat', value: '2.05', positive: true },
@@ -124,7 +123,7 @@ export default function GovHousingPage() {
           />
           <SignalEvidenceCard
             signalName="hb_alpha_index"
-            description="Blend of 50% hb_contrarian_index + 50% hb_permit_value_index. Best OOS IC across the signal zoo. Combines the distress-avoidance signal with permit dollar value momentum as an ASP proxy."
+            description="Composite signal blending the contrarian index with permit value momentum. Combines distress-avoidance with an average selling price proxy to produce the highest OOS IC in the signal set."
             metrics={[
               { label: 'OOS IC', value: '+0.134', positive: true },
               { label: 'OOS Hit Rate', value: '59%', positive: true },
@@ -145,7 +144,7 @@ export default function GovHousingPage() {
             <strong style={{ color: 'var(--navy)' }}>Geographic channel:</strong> Permit acceleration is observable shortly after quarter end — before official home price indices update. Counties in the top permit momentum quintile appreciate ~3.5% over the following quarter vs. ~0.8% for the bottom quintile.
           </p>
           <p>
-            <strong style={{ color: 'var(--navy)' }}>Homebuilder channel:</strong> Federal housing subsidies reveal distressed local markets. Builders with heavy footprint exposure to high-subsidy states (NVR in DC/MD, TOL in the Northeast) underperformed Sun Belt-focused builders (DHI in TX/FL, MTH in AZ) by a wide margin during 2020–2025. The contrarian index captures this dynamic with 68% OOS hit rate.
+            <strong style={{ color: 'var(--navy)' }}>Homebuilder channel:</strong> Federal housing subsidies concentrate in distressed markets. Builders with heavy footprint exposure to high-subsidy regions have historically underperformed those focused on markets with strong private demand. The contrarian index captures this dynamic with a 68% OOS hit rate.
           </p>
         </div>
       </section>
@@ -191,7 +190,7 @@ export default function GovHousingPage() {
             tStat={2.05}
           />
           <p style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '8px', fontFamily: 'var(--font-mono)' }}>
-            IS = pre-2020 (41 quarters) &nbsp;·&nbsp; OOS = 2020+ (22 quarters). OOS IC strengthens as Sun Belt vs. distressed-market divergence intensifies.
+            In-sample (pre-2020) · Out-of-sample (2020+). OOS IC strengthens as private-demand vs. subsidized-market divergence intensifies.
           </p>
         </div>
       </section>
@@ -211,16 +210,6 @@ export default function GovHousingPage() {
             Ribeon provides data, not financial advice. Strategy construction is the buyer&apos;s domain.
           </p>
         </div>
-      </section>
-
-      <Divider />
-
-      {/* Interactive Demo */}
-      <section>
-        <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '18px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
-          Sample Data
-        </h2>
-        <GovHousingExplorer />
       </section>
 
     </div>
