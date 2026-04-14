@@ -56,18 +56,17 @@ export default function Contact() {
           <div className="contact-detail">
             <div className="contact-detail-icon">{'\u2709'}</div>
             <div className="contact-detail-text">
-              <h4>Email</h4>
+              <h4>Company Email</h4>
               <p>info@ribeon.com</p>
-              <p>kdafnas@ribeon.com</p>
-              <p>tribeiro@ribeon.com</p>
             </div>
           </div>
 
           <div className="contact-detail">
-            <div className="contact-detail-icon">{'\uD83D\uDCBC'}</div>
+            <div className="contact-detail-icon">{'\u2709'}</div>
             <div className="contact-detail-text">
-              <h4>LinkedIn</h4>
-              <p><a href="https://www.linkedin.com/in/kimon-dafnas-0b8656202/" target="_blank" rel="noopener" style={{ color: 'var(--blue-bright)', textDecoration: 'none' }}>Kimon Dafnas</a></p>
+              <h4>Personal Email</h4>
+              <p>Kimon Dafnas — kdafnas@ribeon.com</p>
+              <p>Thomas Ribeiro — tribeiro@ribeon.com</p>
             </div>
           </div>
 
@@ -75,6 +74,7 @@ export default function Contact() {
             <div className="contact-detail-icon">{'\uD83C\uDF10'}</div>
             <div className="contact-detail-text">
               <h4>Personal Page</h4>
+              <p><a href="https://www.linkedin.com/in/kimon-dafnas-0b8656202/" target="_blank" rel="noopener" style={{ color: 'var(--blue-bright)', textDecoration: 'none' }}>Kimon Dafnas</a></p>
               <p><a href="https://thomasrribeiro.com/" target="_blank" rel="noopener" style={{ color: 'var(--blue-bright)', textDecoration: 'none' }}>Thomas Ribeiro</a></p>
             </div>
           </div>
