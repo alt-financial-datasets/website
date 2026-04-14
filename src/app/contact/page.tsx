@@ -5,21 +5,37 @@ import { useState } from 'react'
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', org: '', interest: '', message: '' })
   const [sent, setSent] = useState(false)
+  const [error, setError] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
+    setError(false)
     try {
-      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
+          subject: `Ribeon Contact: ${form.interest || 'General Inquiry'} — ${form.name}`,
+          from_name: form.name,
+          name: form.name,
+          email: form.email,
+          organization: form.org || 'Not specified',
+          interest: form.interest || 'Not specified',
+          message: form.message,
+        }),
       })
-      if (res.ok) {
+      const data = await res.json()
+      if (data.success) {
         setSent(true)
         setForm({ name: '', email: '', org: '', interest: '', message: '' })
+      } else {
+        setError(true)
       }
+    } catch {
+      setError(true)
     } finally {
       setSubmitting(false)
     }
@@ -93,6 +109,11 @@ export default function Contact() {
             <button type="submit" className="form-submit" disabled={submitting}>
               {submitting ? 'Sending...' : 'Send Message'}
             </button>
+            {error && (
+              <p style={{ color: 'var(--red, #ef4444)', fontSize: '14px', marginTop: '8px' }}>
+                Something went wrong. Please try again or email us directly at info@ribeon.com.
+              </p>
+            )}
           </form>
         )}
       </div>
