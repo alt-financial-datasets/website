@@ -6,6 +6,7 @@ import { SignalLeadChart } from '@/components/charts/SignalLeadChart'
 import {
   threeLinkProof,
   atlasBacktestResults,
+  atlasScore2Sharpes,
   atlasReferenceResults,
   atlasHddVsHoReturn,
 } from '@/lib/data/weather-evidence'
@@ -46,7 +47,7 @@ export default function WeatherPage() {
         { label: 'Validated signals', value: 'HO, RB, CL, CORN' },
         { label: 'Model → HO r', value: '+0.444', subtitle: 'OOS 3yr, n=48', highlight: true },
         { label: 'Model → ERA5 r', value: '+0.894', subtitle: 'forecast skill' },
-        { label: 'CORN Sharpe (score=3)', value: '4.72', subtitle: '79% hit, 18 trades' },
+        { label: 'CORN Sharpe (score=3)', value: '4.66', subtitle: '79% hit, 19 trades' },
         { label: 'Update cadence', value: 'Weekly' },
       ]} />
 
@@ -191,15 +192,15 @@ export default function WeatherPage() {
         </h2>
         <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', marginBottom: '20px' }}>
           <p>
-            Activation-gated results using three independent confirmation gates (seasonal window, forecast amplitude, and trailing regime correlation). OOS 2021-01-04 → 2024-01-29 (153 weeks). <strong style={{ color: 'var(--navy)' }}>RB and CORN are the flagship signals</strong> at score=3 (all gates active). HO and CL are repositioned to score≥2 — the regime gate filters out HO&apos;s best weeks at the tighter threshold.
+            Activation-gated results using three independent confirmation gates (seasonal window, forecast amplitude, and trailing regime correlation). OOS 2021-01-04 → 2024-02-02 (154 weeks). <strong style={{ color: 'var(--navy)' }}>RB and CORN are the flagship signals</strong> at score=3 (all gates active). HO and CL are repositioned to score≥2 — the regime gate filters out HO&apos;s best weeks at the tighter threshold.
           </p>
         </div>
 
-        <div style={{ overflowX: 'auto', border: '1px solid var(--border)', marginBottom: '20px', maxWidth: '820px' }}>
+        <div style={{ overflowX: 'auto', border: '1px solid var(--border)', marginBottom: '12px', maxWidth: '720px' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                {['Signal', 'Tier', 'Sharpe', 'Hit Rate', 'Trades'].map((h) => (
+                {['Signal (score = 3)', 'Sharpe', 'Hit Rate', 'Trades'].map((h) => (
                   <th key={h} style={{ padding: '9px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
                     {h}
                   </th>
@@ -210,7 +211,6 @@ export default function WeatherPage() {
               {atlasBacktestResults.map((row, i) => (
                 <tr key={i} style={{ borderBottom: '1px solid var(--surface)', background: i % 2 === 1 ? 'var(--bg)' : 'var(--white)' }}>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.signal}</td>
-                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: row.tier === 'score = 3' ? 'var(--gold)' : 'var(--muted)' }}>{row.tier}</td>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--positive)' }}>{row.sharpe.toFixed(2)}</td>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--navy)' }}>{row.hitRate}%</td>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.trades}</td>
@@ -221,8 +221,38 @@ export default function WeatherPage() {
         </div>
 
         <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', marginBottom: '20px', maxWidth: '680px' }}>
-          Bootstrap 90% CI: CORN [2.32, 8.90] — lower bound comfortably above 2.0. RB [0.50, 8.26] — lower bound positive. Transaction costs stress-tested; neither flagship drops below Sharpe 3.0 at 10bp round-trip.
+          Bootstrap 5th percentile: CORN 2.33 — lower bound comfortably above 2.0. RB 0.76 — lower bound positive. Transaction costs stress-tested; neither flagship drops below Sharpe 3.0 at 10bp round-trip.
         </p>
+
+        <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', marginBottom: '12px' }}>
+          <p>
+            <strong style={{ color: 'var(--navy)' }}>Score threshold comparison (Sharpe):</strong> HO and CL perform better at score≥2 — the stricter gate filters out their best activation weeks. RB and CORN peak at score=3.
+          </p>
+        </div>
+
+        <div style={{ overflowX: 'auto', border: '1px solid var(--border)', marginBottom: '20px', maxWidth: '720px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                {['Signal', 'Sharpe (score = 3)', 'Sharpe (score ≥ 2)', 'Note'].map((h) => (
+                  <th key={h} style={{ padding: '9px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {atlasScore2Sharpes.map((row, i) => (
+                <tr key={i} style={{ borderBottom: '1px solid var(--surface)', background: i % 2 === 1 ? 'var(--bg)' : 'var(--white)' }}>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.signal}</td>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--positive)' }}>{row.sharpeScore3.toFixed(2)}</td>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--positive)' }}>{row.sharpeScore2.toFixed(2)}</td>
+                  <td style={{ padding: '7px 14px', fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', maxWidth: '260px' }}>{row.read}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', marginBottom: '20px' }}>
           <p style={{ marginBottom: '8px' }}>
