@@ -3,6 +3,7 @@ import { Sora, Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SiteBackground } from "@/components/SiteBackground";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -57,9 +58,12 @@ export default function RootLayout({
       className={`${sora.variable} ${playfair.variable} ${dmSans.variable}`}
     >
       <body>
-        <Navbar />
-        {children}
-        <Footer />
+        <SiteBackground />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <Navbar />
+          {children}
+          <Footer />
+        </div>
       </body>
     </html>
   );

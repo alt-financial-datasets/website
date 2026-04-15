@@ -12,6 +12,7 @@ type Node = {
 // ── Parallax star field ───────────────────────────────────────────────────────
 type Star = {
   x: number; y: number   // absolute position
+  vx: number; vy: number // autonomous drift
   r: number
   opacity: number
   layer: 0 | 1 | 2       // 0=far, 1=mid, 2=near
@@ -24,8 +25,8 @@ const PARALLAX = [0.015, 0.038, 0.075] as const
 const LAYER_COUNT = [280, 130, 65] as const
 // Star size range per layer [min, max]
 const LAYER_SIZE: [number, number][] = [[0.15, 0.55], [0.35, 1.0], [0.65, 1.8]]
-// Star opacity range per layer [min, max]
-const LAYER_ALPHA: [number, number][] = [[0.3, 0.6], [0.45, 0.72], [0.6, 0.95]]
+// Star opacity range per layer [min, max] — kept close together so no star stands out
+const LAYER_ALPHA: [number, number][] = [[0.2, 0.4], [0.25, 0.45], [0.3, 0.5]]
 
 export function SiteBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -74,6 +75,8 @@ export function SiteBackground() {
           stars.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.12,
+            vy: (Math.random() - 0.5) * 0.12,
             r: sMin + Math.random() * (sMax - sMin),
             opacity: aMin + Math.random() * (aMax - aMin),
             layer: layer as 0 | 1 | 2,
@@ -110,6 +113,13 @@ export function SiteBackground() {
           ctx.arc(sx, sy, s.r, 0, Math.PI * 2)
           ctx.fillStyle = `rgba(${s.rgb},${s.opacity})`
           ctx.fill()
+          // autonomous drift with wrap-around
+          s.x += s.vx
+          s.y += s.vy
+          if (s.x < -2) s.x = canvas.width + 2
+          if (s.x > canvas.width + 2) s.x = -2
+          if (s.y < -2) s.y = canvas.height + 2
+          if (s.y > canvas.height + 2) s.y = -2
         }
       }
 
