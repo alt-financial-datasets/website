@@ -33,7 +33,15 @@ export function Navbar() {
           <li key={href}>
             <Link
               href={href}
-              className={pathname === href ? 'active' : ''}
+              className={
+                href === '/'
+                  ? pathname === '/'
+                    ? 'active'
+                    : ''
+                  : pathname.startsWith(href)
+                  ? 'active'
+                  : ''
+              }
               onClick={() => setMenuOpen(false)}
             >
               {label}

@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import { AnimateIn } from '@/components/AnimateIn'
+import { HeroParticles } from '@/components/HeroParticles'
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
       <section className="hero">
+        <HeroParticles />
         <div className="hero-inner">
           <div className="hero-content">
             <div className="hero-label">Alternative Data Solutions</div>
